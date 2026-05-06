@@ -76,15 +76,15 @@
       </div>
      <div class="wrapper">
 
-          @include('Administration.layouts.header')
+          @include('administration.layouts.header')
 
-          @include('Administration.layouts.sidebar')
+          @include('administration.layouts.sidebar')
 
           <div class="page-content">
 
             @yield('content')
 
-            @include('Administration.layouts.footer')
+            @include('administration.layouts.footer')
 
           </div>
        
