@@ -53,8 +53,11 @@
                         <div class="media overflow-hidden">
                             <div style="position: relative; width: 100%; height: 220px; overflow: hidden;">
                                 @if($solution->image_url)
-                                    <img src="{{ $solution->image_url }}" class="img-fluid" alt="{{ $solution->title }}" 
-                                        style="width: 100% !important; height: 220px; object-fit: cover;">
+                                <img src="{{ asset('storage/' . $solution->image_path) }}" 
+     class="img-fluid" 
+     alt="{{ $solution->title }}"
+     style="width: 100% !important; height: 220px; object-fit: cover;">
+                                    
                                     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
                                 @else
                                     <img src="{{ asset('assets/img/home/our-portfolio-home__item-1.png') }}" class="img-fluid" alt="">
