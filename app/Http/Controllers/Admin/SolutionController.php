@@ -47,18 +47,40 @@ class SolutionController extends Controller
         $solution->is_active = $request->has('is_active');
         $solution->featured = $request->has('featured');
 
+        // if ($request->hasFile('image')) {
+        //     $image = $request->file('image');
+        //     $filename = time() . '_' . $image->getClientOriginalName();
+        //     $path = $image->storeAs('solutions', $filename, 'public');
+        //     $solution->image_path = $path;
+        // }
+
         if ($request->hasFile('image')) {
+
             $image = $request->file('image');
+
             $filename = time() . '_' . $image->getClientOriginalName();
-            $path = $image->storeAs('solutions', $filename, 'public');
-            $solution->image_path = $path;
+
+            $image->move(public_path('storage/solutions'), $filename);
+
+            $solution->image_path = 'solutions/' . $filename;
         }
 
+        // if ($request->hasFile('icon')) {
+        //     $icon = $request->file('icon');
+        //     $filename = time() . '_icon_' . $icon->getClientOriginalName();
+        //     $path = $icon->storeAs('solutions/icons', $filename, 'public');
+        //     $solution->icon = $path;
+        // }
+
         if ($request->hasFile('icon')) {
+
             $icon = $request->file('icon');
+
             $filename = time() . '_icon_' . $icon->getClientOriginalName();
-            $path = $icon->storeAs('solutions/icons', $filename, 'public');
-            $solution->icon = $path;
+
+            $icon->move(public_path('storage/solutions/icons'), $filename);
+
+            $solution->icon = 'solutions/icons/' . $filename;
         }
 
         $solution->save();
