@@ -42,15 +42,6 @@
                             
 
                              <div class="dropdown-divider my-1"></div>
-
-                             {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                   @csrf
-                              </form>
-                              
-                              <a class="dropdown-item text-danger" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                   <i class="bx bx-log-out fs-18 align-middle me-1"></i>
-                                   <span class="align-middle">Se Déconnecter</span>
-                              </a> --}}
                           
                         </div>
                    </div>

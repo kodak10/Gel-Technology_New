@@ -488,7 +488,7 @@ Author: RRDevs
             slidesToShow: 1,
             infinite: true,
             slidesToScroll: 1,
-            autoplaySpeed: 1500,
+            autoplaySpeed: 8000,
             appendArrows: $('.slider-controls .banner-slider-arrows'),
             prevArrow: "<button type='button' class='slick-prev pull-left'><i class='fas fa-long-arrow-alt-left' aria-hidden='true'></i></button>",
             nextArrow: "<button type='button' class='slick-next pull-right'><i class='fas fa-long-arrow-alt-right' aria-hidden='true'></i></button>"
@@ -501,7 +501,7 @@ Author: RRDevs
             slidesToShow: 1,
             infinite: true,
             slidesToScroll: 1,
-            autoplaySpeed: 1000,
+            autoplaySpeed: 8000,
             appendArrows: $('.slider-controls .banner-slider-arrows'),
             prevArrow: "<button type='button' class='slick-prev pull-left'><i class='fas fa-long-arrow-alt-left' aria-hidden='true'></i></button>",
             nextArrow: "<button type='button' class='slick-next pull-right'><i class='fas fa-long-arrow-alt-right' aria-hidden='true'></i></button>"

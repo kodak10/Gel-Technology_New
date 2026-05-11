@@ -42,19 +42,19 @@
                         <div class="header-menu d-none d-xl-block">
                             <div class="main-menu">
                                 <ul>
-                                    <li class="active">
+                                    <li class="{{ request()->routeIs('accueil') ? 'active' : '' }}">
                                         <a href="{{ route('accueil') }}">Accueil</a>
                                     </li>
-                                    <li>
+                                    <li class="{{ request()->routeIs('about') ? 'active' : '' }}">
                                         <a href="{{ route('about') }}">A Propos</a>
                                     </li>
-                                    <li>
+                                    <li class="{{ request()->routeIs('services') || request()->routeIs('service.details') || request()->routeIs('services.by.category') ? 'active' : '' }}">
                                         <a href="{{ route('services') }}">Nos Services</a>
                                     </li>
-                                    <li>
+                                    <li class="{{ request()->routeIs('realisations') || request()->routeIs('realisation.details') ? 'active' : '' }}">
                                         <a href="{{ route('realisations') }}">Réalisations</a>
                                     </li>
-                                    <li>
+                                    <li class="{{ request()->routeIs('administration.*') ? 'active' : '' }}">
                                         <a href="{{ route('administration.dashboard') }}">Administration</a>
                                     </li>
                                 </ul>
@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="header-right d-flex align-items-center">
-                            <a href="{{ route('contact') }}" class="header-btn">Contactez-Nous <i class="fas fa-chevron-double-right"></i></a>
+                            <a href="{{ route('contact') }}" class="header-btn {{ request()->routeIs('contact') ? 'active' : '' }}">Contactez-Nous <i class="fas fa-chevron-double-right"></i></a>
                             <div class="mobile-nav-bar d-block ml-3 ml-sm-5 d-xl-none">
                                 <div class="mobile-nav-wrap">
                                     <div id="hamburger">

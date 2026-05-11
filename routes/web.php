@@ -14,6 +14,7 @@ use App\Http\Controllers\ContactController;
 
 use App\Http\Controllers\Admin\RealisationController;
 use App\Models\CategorieSolution;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', [WebsiteController::class, 'index'])->name('accueil');
 Route::get('/about', [WebsiteController::class, 'about'])->name('about');
@@ -28,8 +29,9 @@ Route::get('/services/category/{slug}', [WebsiteController::class, 'servicesByCa
 
 Route::get('/realisation/{id}', [WebsiteController::class, 'realisationDetails'])->name('realisation.details');
 
-// Route::prefix('admin')->middleware(['auth'])->group(function () {
-Route::prefix('administration')->name('administration.')->group(function () {
+Auth::routes();
+
+Route::prefix('administration')->middleware(['auth'])->name('administration.')->group(function () {
     Route::get('/', [AdministrationController::class, 'index'])->name('dashboard');
 
     Route::resource('banners', BannerController::class);
@@ -79,3 +81,4 @@ Route::prefix('administration')->name('administration.')->group(function () {
     // Route::patch('/events/{event}/toggle-published', [EventController::class, 'togglePublished'])->name('events.toggle-published');
     // Route::patch('/events/{event}/toggle-featured', [EventController::class, 'toggleFeatured'])->name('events.toggle-featured');
 });
+

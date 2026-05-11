@@ -7,16 +7,16 @@
         <div class="navigation">
             <div class="consulter-mobile-nav">
                 <ul>
-                    <li>
+                    <li class="{{ request()->routeIs('accueil') ? 'active' : '' }}">
                         <a href="{{ route('accueil') }}">Accueil</a>
                     </li>
-                    <li>
+                    <li class="{{ request()->routeIs('about') ? 'active' : '' }}">
                         <a href="{{ route('about') }}">A Propos</a>
                     </li>
-                    <li>
+                    <li class="{{ request()->routeIs('services') || request()->routeIs('service.details') || request()->routeIs('services.by.category') ? 'active' : '' }}">
                         <a href="{{ route('services') }}">Nos Services</a>
                     </li>
-                    <li>
+                    <li class="{{ request()->routeIs('realisations') || request()->routeIs('realisation.details') ? 'active' : '' }}">
                         <a href="{{ route('realisations') }}">Réalisations</a>
                     </li>
                 </ul>

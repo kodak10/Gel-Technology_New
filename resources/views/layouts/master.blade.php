@@ -18,7 +18,30 @@
     <link rel="stylesheet" href="{{asset('assets/css/animate.min.css')}}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+
+    <style>
+        /* Augmenter la largeur de l'image dans la lightbox */
+.lightbox .lb-image {
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+    width: auto !important;
+    height: auto !important;
+}
+
+/* Optionnel : Agrandir le conteneur */
+.lb-outerContainer {
+    max-width: 90vw !important;
+    background-color: transparent !important;
+}
+
+/* Optionnel : Centrer parfaitement */
+.lb-dataContainer {
+    max-width: 90vw !important;
+}
+    </style>
 
 </head>
 
@@ -59,6 +82,25 @@
     <script src="{{asset('assets/js/jquery.waypoints.min.js')}}"></script>
     <script src="{{asset('assets/js/wow.min.js')}}"></script>
     <script src="{{asset('assets/js/active.js')}}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+
+    <script>
+        // Garder la flèche mais ouvrir la galerie quand même
+        $(document).ready(function() {
+            $('.our-project__item').each(function() {
+                var imgSrc = $(this).find('img').attr('src');
+                var imgTitle = $(this).find('.title').text();
+                
+                // Image cliquable
+                $(this).find('img').wrap('<a href="' + imgSrc + '" data-lightbox="realisations" data-title="' + imgTitle + '"></a>');
+                
+                // Bouton flèche aussi cliquable
+                $(this).find('.theme-btn').attr('href', imgSrc);
+                $(this).find('.theme-btn').attr('data-lightbox', 'realisations');
+                $(this).find('.theme-btn').attr('data-title', imgTitle);
+            });
+        });
+    </script>
 </body>
 
 </html>
