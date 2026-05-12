@@ -77,6 +77,8 @@
                             <div class="contact-us__item-body font-la">
                                 <ul>
                                     <li><a href="tel:+2252720270752">(+225) 27 20 27 07 52</a></li>
+                                    <li><a href="tel:+2250707016362">(+225) 07 07 01 63 62</a></li>
+                                    <li><a href="tel:+2250707016153">(+225) 07 07 01 61 53</a></li>
                                 </ul>
                             </div>
                         </div>

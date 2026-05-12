@@ -272,7 +272,7 @@
         </div>
     </div>
 
-    <div class="our-porfolio__slider wow fadeInUp" data-wow-delay=".5s">
+    <div class="our-porfolio__slider wow fadeInUp" data-wow-delay="2.5s">
         @foreach($projects as $project)
         <div class="slider-item">
             <div class="our-project__item overflow-hidden">

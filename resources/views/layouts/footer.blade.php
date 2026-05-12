@@ -44,6 +44,8 @@
                                 <div class="col-4">
                                     <ul>
                                         <li><a href="tel:+2252720270752"><i class="fas fa-phone-alt"></i> (+225) 27 20 27 07 52</a></li>
+                                        <li><a href="tel:+2250707016362"><i class="fas fa-phone-alt"></i> (+225) 07 07 01 63 62</a></li>
+                                        <li><a href="tel:+2250707016153"><i class="fas fa-phone-alt"></i> (+225) 07 07 01 61 53</a></li>
                                     </ul>
                                 </div>
                                 <div class="col-4">

@@ -74,7 +74,7 @@
                                 <li>
                                     <a href="{{ route('service.details', $sameService->slug) }}">
                                         {{ $sameService->title }} 
-                                        <i class="fas fa-long-arrow-alt-right"></i>
+                                        <i class="fa-solid fa-chevron-right"></i>
                                     </a>
                                 </li>
                                 @endforeach

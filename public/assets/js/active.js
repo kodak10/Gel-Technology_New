@@ -128,7 +128,7 @@ Author: RRDevs
             animation: 'slide', // Fade, slide, none
             animationInSpeed: 300, // Animation in speed (ms)
             animationOutSpeed: 300, // Animation out speed (ms)
-            scrollText: '<i class="fal fa-angle-up"></i>', // Text for element
+            scrollText: '<i class="fas fa-angle-up"></i>',
             activeOverlay: false, // Set CSS color to display scrollUp active point, e.g '#00FFFF'
         });
 
@@ -262,7 +262,7 @@ Author: RRDevs
             infinite: true,
             slidesToScroll: 1,
             centerMode: true,
-            autoplaySpeed: 800,
+            autoplaySpeed: 8000,
             centerPadding: '621px',
             responsive: [{
                     breakpoint: 1851,

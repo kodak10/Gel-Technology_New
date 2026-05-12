@@ -55,15 +55,6 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-12 text-center">
-                                    @if (Route::has('password.request'))
-                                        <a class="forgot-password color-primary" href="{{ route('password.request') }}">
-                                            <i class="fas fa-key me-1"></i> Mot de passe oublié ?
-                                        </a>
-                                    @endif
-                                </div>
-                            </div>
                         </form>
                     </div>
                 </div>

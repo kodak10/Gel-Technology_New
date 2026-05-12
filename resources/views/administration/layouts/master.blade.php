@@ -11,7 +11,8 @@
      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
      <!-- App favicon -->
-     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo/favicon.png') }}">
+
     
      <!-- Vendor css (Require in all Page) -->
      <link href="{{ asset('Admin/assets/css/vendor.min.css')}}" rel="stylesheet" type="text/css" />

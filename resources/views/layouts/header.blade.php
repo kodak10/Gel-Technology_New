@@ -16,7 +16,9 @@
                 <div class="col-8">
                     <div class="header-cta d-flex justify-content-end">
                         <ul>
-                            <li><a href="tel:+2252720270752"><i class="fas fa-phone-alt"></i> (+225) 27 20 27 07 52</a></li>
+                            <li><a href="tel:+2252720270752" class="mr-3"><i class="fas fa-phone-alt"></i> (+225) 27 20 27 07 52</a> |
+                                <a href="tel:+2250707016362">(+225) 07 07 01 63 62</a>
+                            </li>
                             <li><a href="mailto:contacts@geltechnology-ci.com"><i class="fas fa-envelope"></i> Contacts@geltechnology-ci.com</a></li>
                             <li> <a href="https://www.google.com/maps?q=%2B225+Plateau,+Abidjan,+C%C3%B4te+d%27Ivoire&hl=fr"><i class="fas fa-map-marker-alt"></i> Côte d’Ivoire, Abidjan-Adjamé</a> </li>
                         </ul>
