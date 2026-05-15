@@ -42,24 +42,12 @@ class RealisationController extends Controller
         $project->featured = $request->has('featured');
 
         if ($request->hasFile('image')) {
-
             $image = $request->file('image');
-
             $filename = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
-
-            // dossier public direct
-            $destinationPath = public_path('storage/realisations');
-
-            // créer le dossier s'il n'existe pas
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
-
-            // déplacer l'image
-            $image->move($destinationPath, $filename);
-
-            // sauvegarder le chemin public
-            $project->image_path = 'storage/realisations/' . $filename;
+            
+            // Utiliser le système de stockage Laravel
+            $path = $image->storeAs('realisations', $filename, 'public');
+            $project->image_path = $path;
         }
 
         $project->save();
@@ -93,25 +81,17 @@ class RealisationController extends Controller
         $project->featured = $request->has('featured');
 
         if ($request->hasFile('image')) {
-
-            // supprimer ancienne image
-            if ($project->image_path && file_exists(public_path($project->image_path))) {
-                unlink(public_path($project->image_path));
+            // Supprimer l'ancienne image
+            if ($project->image_path && Storage::disk('public')->exists($project->image_path)) {
+                Storage::disk('public')->delete($project->image_path);
             }
 
             $image = $request->file('image');
-
             $filename = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
-
-            $destinationPath = public_path('realisations');
-
-            if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
-            }
-
-            $image->move($destinationPath, $filename);
-
-            $project->image_path = 'realisations/' . $filename;
+            
+            // Utiliser le système de stockage Laravel
+            $path = $image->storeAs('realisations', $filename, 'public');
+            $project->image_path = $path;
         }
 
         $project->save();
@@ -122,8 +102,9 @@ class RealisationController extends Controller
 
     public function destroy(Realisation $project)
     {
-        if ($project->image_path && file_exists(public_path($project->image_path))) {
-            unlink(public_path($project->image_path));
+        // Supprimer l'image si elle existe
+        if ($project->image_path && Storage::disk('public')->exists($project->image_path)) {
+            Storage::disk('public')->delete($project->image_path);
         }
         
         $project->delete();

@@ -31,6 +31,11 @@ class Realisation extends Model
     // Accesseur pour l'URL de l'image
     public function getImageUrlAttribute()
     {
-        return $this->image_path ? Storage::url($this->image_path) : null;
+        if ($this->image_path) {
+            return Storage::url($this->image_path);
+        }
+        
+        // Image par défaut si aucune image n'existe
+        return asset('storage/realisations/default.jpg');
     }
 }
