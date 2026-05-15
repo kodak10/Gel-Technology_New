@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Storage;
 
 class Realisation extends Model
 {
@@ -28,9 +27,14 @@ class Realisation extends Model
         'order' => 'integer'
     ];
 
-    // Accesseur pour l'URL de l'image
+    // Accesseur pour l'URL de l'image (version corrigée)
     public function getImageUrlAttribute()
     {
-        return $this->image_path ? Storage::url($this->image_path) : null;
+        if (!$this->image_path) {
+            return null;
+        }
+        
+        // Retourner directement l'URL publique
+        return asset($this->image_path);
     }
 }

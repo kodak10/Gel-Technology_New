@@ -61,24 +61,5 @@ Route::prefix('administration')->middleware(['auth'])->name('administration.')->
     Route::patch('temoignages/{temoignage}/toggle-status', [TemoignageController::class, 'toggleStatus'])->name('temoignages.toggle-status');
     Route::post('temoignages/update-order', [TemoignageController::class, 'updateOrder'])->name('temoignages.update-order');
 
-    // Route::resource('projects', ProjectController::class);
-    // Route::post('/projects/update-order', [ProjectController::class, 'updateOrder'])->name('projects.update-order');
-    // Route::patch('/projects/{project}/toggle-status', [ProjectController::class, 'toggleStatus'])->name('projects.toggle-status');
-    // Route::patch('/projects/{project}/toggle-featured', [ProjectController::class, 'toggleFeatured'])->name('projects.toggle-featured');
-    
-    // // Clients
-    // Route::resource('clients', ClientController::class);
-    // Route::post('/clients/update-order', [ClientController::class, 'updateOrder'])->name('clients.update-order');
-    // Route::patch('/clients/{client}/toggle-status', [ClientController::class, 'toggleStatus'])->name('clients.toggle-status');
-    
-    // // Témoignages
-    // Route::resource('testimonials', TestimonialController::class);
-    // Route::post('/testimonials/update-order', [TestimonialController::class, 'updateOrder'])->name('testimonials.update-order');
-    // Route::patch('/testimonials/{testimonial}/toggle-status', [TestimonialController::class, 'toggleStatus'])->name('testimonials.toggle-status');
-    
-    // // Événements
-    // Route::resource('events', EventController::class);
-    // Route::patch('/events/{event}/toggle-published', [EventController::class, 'togglePublished'])->name('events.toggle-published');
-    // Route::patch('/events/{event}/toggle-featured', [EventController::class, 'toggleFeatured'])->name('events.toggle-featured');
 });
 
