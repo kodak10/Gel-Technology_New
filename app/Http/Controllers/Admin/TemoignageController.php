@@ -6,7 +6,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Temoignage;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class TemoignageController extends Controller
@@ -27,17 +26,19 @@ class TemoignageController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'position' => 'nullable|string|max:255',
-            'content' => 'required|string',
+            'message' => 'required|string',
             'rating' => 'nullable|integer|min:1|max:5',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'social_links' => 'nullable|array',
-            'border_color' => 'nullable|string'
+            'border_color' => 'nullable|string',
+            'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean'
         ]);
 
         $temoignage = new Temoignage();
         $temoignage->name = $request->name;
         $temoignage->position = $request->position;
-        $temoignage->message = $request->content;
+        $temoignage->message = $request->message;
         $temoignage->rating = $request->rating ?? 5;
         $temoignage->border_color = $request->border_color ?? 'primary';
         $temoignage->order = $request->order ?? 0;
@@ -47,13 +48,22 @@ class TemoignageController extends Controller
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $filename = time() . '_' . Str::slug($request->name) . '.' . $avatar->getClientOriginalExtension();
-            $path = $avatar->storeAs('temoignages', $filename, 'public');
-            $temoignage->avatar_path = $path;
+            
+            // Stocker directement dans public/uploads/temoignages
+            $destinationPath = public_path('uploads/temoignages');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $avatar->move($destinationPath, $filename);
+            $temoignage->avatar_path = 'uploads/temoignages/' . $filename;
         }
 
         $temoignage->save();
 
-        return redirect()->route('administration.temoignages.index')->with('success', 'Témoignage ajouté avec succès.');
+        return redirect()->route('administration.temoignages.index')
+            ->with('success', 'Témoignage ajouté avec succès.');
     }
 
     public function edit(Temoignage $temoignage)
@@ -70,7 +80,9 @@ class TemoignageController extends Controller
             'rating' => 'nullable|integer|min:1|max:5',
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
             'social_links' => 'nullable|array',
-            'border_color' => 'nullable|string'
+            'border_color' => 'nullable|string',
+            'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean'
         ]);
 
         $temoignage->name = $request->name;
@@ -83,33 +95,47 @@ class TemoignageController extends Controller
         $temoignage->social_links = $request->social_links;
 
         if ($request->hasFile('avatar')) {
-            if ($temoignage->avatar_path) {
-                Storage::disk('public')->delete($temoignage->avatar_path);
+            // Supprimer l'ancien avatar
+            if ($temoignage->avatar_path && file_exists(public_path($temoignage->avatar_path))) {
+                unlink(public_path($temoignage->avatar_path));
             }
+
             $avatar = $request->file('avatar');
             $filename = time() . '_' . Str::slug($request->name) . '.' . $avatar->getClientOriginalExtension();
-            $path = $avatar->storeAs('temoignages', $filename, 'public');
-            $temoignage->avatar_path = $path;
+            
+            $destinationPath = public_path('uploads/temoignages');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $avatar->move($destinationPath, $filename);
+            $temoignage->avatar_path = 'uploads/temoignages/' . $filename;
         }
 
         $temoignage->save();
 
-        return redirect()->route('administration.temoignages.index')->with('success', 'Témoignage mis à jour avec succès.');
+        return redirect()->route('administration.temoignages.index')
+            ->with('success', 'Témoignage mis à jour avec succès.');
     }
 
     public function destroy(Temoignage $temoignage)
     {
-        if ($temoignage->avatar_path) {
-            Storage::disk('public')->delete($temoignage->avatar_path);
+        if ($temoignage->avatar_path && file_exists(public_path($temoignage->avatar_path))) {
+            unlink(public_path($temoignage->avatar_path));
         }
+        
         $temoignage->delete();
-        return redirect()->route('administration.temoignages.index')->with('success', 'Témoignage supprimé avec succès.');
+        
+        return redirect()->route('administration.temoignages.index')
+            ->with('success', 'Témoignage supprimé avec succès.');
     }
 
     public function toggleStatus(Temoignage $temoignage)
     {
         $temoignage->is_active = !$temoignage->is_active;
         $temoignage->save();
+        
         return redirect()->back()->with('success', 'Statut du témoignage mis à jour.');
     }
 
@@ -118,6 +144,7 @@ class TemoignageController extends Controller
         foreach ($request->order as $index => $id) {
             Temoignage::where('id', $id)->update(['order' => $index]);
         }
+        
         return response()->json(['success' => true]);
     }
 }

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Storage;
 
 class Temoignage extends Model
 {
@@ -31,9 +30,14 @@ class Temoignage extends Model
         'social_links' => 'array'
     ];
 
+    // Accesseur pour l'URL de l'avatar (version corrigée)
     public function getAvatarUrlAttribute()
     {
-        return $this->avatar_path ? Storage::url($this->avatar_path) : null;
+        if (!$this->avatar_path) {
+            return null;
+        }
+        
+        return asset($this->avatar_path);
     }
 
     // Convertir rating en étoiles

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Facades\Storage;
 
 class Partenaire extends Model
 {
@@ -25,8 +24,13 @@ class Partenaire extends Model
         'order' => 'integer'
     ];
 
+    // Accesseur pour l'URL du logo (version corrigée)
     public function getLogoUrlAttribute()
     {
-        return $this->logo_path ? Storage::url($this->logo_path) : null;
+        if (!$this->logo_path) {
+            return null;
+        }
+        
+        return asset($this->logo_path);
     }
 }
