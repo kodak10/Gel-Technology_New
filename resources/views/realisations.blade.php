@@ -46,6 +46,7 @@
 
     <div class="our-porfolio__slider wow fadeInUp" data-wow-delay=".5s">
         @foreach($projects as $project)
+        @if($project->is_active) {{-- Afficher uniquement les projets actifs --}}
         <div class="slider-item">
             <div class="our-project__item overflow-hidden">
                 <img src="{{ $project->image_url ?: asset('assets/img/portfolio/portfolio-1.png') }}" alt="{{ $project->title }}">
@@ -55,22 +56,23 @@
                         <span class="fw-500 color-yellow d-block mb-10 text-uppercase">{{ $project->category ?: 'Réalisation' }}</span>
                         <h5 class="title color-secondary">{{ $project->title }}</h5>
                         @if($project->description)
-                            <p class="small text-white mt-2">{{ Str::limit($project->description, 80) }}</p>
+                            <p class="small text-white mt-2">{{ \Illuminate\Support\Str::limit($project->description, 80) }}</p>
                         @endif
                     </div>
 
-                    <a href="#" class="theme-btn">
+                    <a href="{{ route('realisation.details', $project->id) }}" class="theme-btn">
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 </div>
             </div>
         </div>
+        @endif
         @endforeach
     </div>
 </section>
 
 <!-- Témoignages -->
-@if($temoignages->count() > 0)
+@if(isset($temoignages) && $temoignages->count() > 0)
 <section class="testimonial bg-dark_white pb-xs-80 pt-xs-80 pt-sm-100 pb-sm-100 pt-md-100 pb-md-100 pt-60 pb-50 overflow-hidden">
     <div class="container">
         <div class="row">
@@ -89,6 +91,7 @@
             <div class="col-12">
                 <div class="testimonial-slider wow fadeInUp" data-wow-delay=".5s">
                     @foreach($temoignages as $temoignage)
+                    @if($temoignage->is_active)
                     <div class="slider-item">
                         <div class="testimonial__item border--{{ $temoignage->border_color ?? 'primary' }}">
                             <div class="testimonial__item-header d-flex justify-content-between align-items-center mb-35">
@@ -135,6 +138,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                     @endforeach
                 </div>
             </div>
@@ -144,7 +148,7 @@
 @endif
 
 <!-- Partenaires -->
-@if($partenaires->count() > 0)
+@if(isset($partenaires) && $partenaires->count() > 0)
 <div class="client-brand bg-dark_white pb-xs-80 pb-sm-100 pb-md-100 pb-120 overflow-hidden">
     <div class="container">
         <div class="row">
@@ -166,6 +170,7 @@
                     ]
                 }'>
                     @foreach($partenaires as $partenaire)
+                    @if($partenaire->is_active)
                     <div class="slider-item">
                         <a href="{{ $partenaire->link ?: '#' }}" class="client-brand__item" target="{{ $partenaire->link ? '_blank' : '_self' }}">
                             <div class="client-brand__item-media">
@@ -173,6 +178,7 @@
                             </div>
                         </a>
                     </div>
+                    @endif
                     @endforeach
                 </div>
             </div>

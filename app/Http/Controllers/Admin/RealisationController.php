@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Realisation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class RealisationController extends Controller
@@ -42,24 +41,18 @@ class RealisationController extends Controller
         $project->featured = $request->has('featured');
 
         if ($request->hasFile('image')) {
-
             $image = $request->file('image');
-
             $filename = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
-
-            // dossier public direct
-            $destinationPath = public_path('storage/realisations');
-
-            // créer le dossier s'il n'existe pas
+            
+            // Stocker directement dans public/uploads/realisations
+            $destinationPath = public_path('uploads/realisations');
+            
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
-
-            // déplacer l'image
+            
             $image->move($destinationPath, $filename);
-
-            // sauvegarder le chemin public
-            $project->image_path = 'storage/realisations/' . $filename;
+            $project->image_path = 'uploads/realisations/' . $filename;
         }
 
         $project->save();
@@ -93,25 +86,22 @@ class RealisationController extends Controller
         $project->featured = $request->has('featured');
 
         if ($request->hasFile('image')) {
-
-            // supprimer ancienne image
+            // Supprimer l'ancienne image
             if ($project->image_path && file_exists(public_path($project->image_path))) {
                 unlink(public_path($project->image_path));
             }
 
             $image = $request->file('image');
-
             $filename = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
-
-            $destinationPath = public_path('storage/realisations');
-
+            
+            $destinationPath = public_path('uploads/realisations');
+            
             if (!file_exists($destinationPath)) {
                 mkdir($destinationPath, 0755, true);
             }
-
+            
             $image->move($destinationPath, $filename);
-
-            $project->image_path = 'storage/realisations/' . $filename;
+            $project->image_path = 'uploads/realisations/' . $filename;
         }
 
         $project->save();

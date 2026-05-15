@@ -45,13 +45,20 @@
                                         <tr data-id="{{ $project->id }}">
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
-                                                <img src="{{ $project->image_url }}" alt="{{ $project->title }}" 
-                                                     class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;">
+                                                @if($project->image_url && file_exists(public_path($project->image_path)))
+                                                    <img src="{{ $project->image_url }}" alt="{{ $project->title }}" 
+                                                         class="img-thumbnail" style="width: 80px; height: 60px; object-fit: cover;">
+                                                @else
+                                                    <div class="bg-light d-flex align-items-center justify-content-center" 
+                                                         style="width: 80px; height: 60px;">
+                                                        <i class="fas fa-image text-muted"></i>
+                                                    </div>
+                                                @endif
                                             </td>
                                             <td>
                                                 <strong>{{ $project->title }}</strong>
                                                 @if($project->description)
-                                                    <p class="text-muted mb-0 small">{{ Str::limit($project->description, 50) }}</p>
+                                                    <p class="text-muted mb-0 small">{{ \Illuminate\Support\Str::limit($project->description, 50) }}</p>
                                                 @endif
                                             </td>
                                             <td>
@@ -112,22 +119,30 @@
 
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css">
 @endpush
 
 @push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
 <script>
     $(document).ready(function() {
-        $('#projects-table').DataTable({
-            responsive: true,
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/French.json'
-            },
-            columnDefs: [
-                { orderable: false, targets: [0, 1, 5, 6, 7] }
-            ]
-        });
+        // Vérifier si DataTable est chargé
+        if ($.fn.dataTable) {
+            $('#projects-table').DataTable({
+                responsive: true,
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.10.25/i18n/French.json'
+                },
+                columnDefs: [
+                    { orderable: false, targets: [0, 1, 5, 6, 7] }
+                ]
+            });
+        }
 
+        // Fonctionnalité de tri par glisser-déposer
         $("#sortable").sortable({
             update: function(event, ui) {
                 var order = [];
@@ -143,7 +158,12 @@
                         _token: "{{ csrf_token() }}"
                     },
                     success: function(response) {
-                        console.log('Ordre mis à jour');
+                        if(response.success) {
+                            console.log('Ordre mis à jour avec succès');
+                        }
+                    },
+                    error: function(xhr) {
+                        console.error('Erreur lors de la mise à jour de l\'ordre');
                     }
                 });
             }

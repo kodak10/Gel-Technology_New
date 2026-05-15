@@ -27,14 +27,14 @@ class Realisation extends Model
         'order' => 'integer'
     ];
 
-    // Accesseur pour l'URL de l'image (version corrigée)
+    // Accesseur pour l'URL de l'image
     public function getImageUrlAttribute()
     {
         if (!$this->image_path) {
             return null;
         }
         
-        // Retourner directement l'URL publique
+        // Retourner l'URL complète
         return asset($this->image_path);
     }
 }
