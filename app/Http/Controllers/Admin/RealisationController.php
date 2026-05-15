@@ -48,7 +48,7 @@ class RealisationController extends Controller
             $filename = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
 
             // dossier public direct
-            $destinationPath = public_path('realisations');
+            $destinationPath = public_path('storage/realisations');
 
             // créer le dossier s'il n'existe pas
             if (!file_exists($destinationPath)) {
@@ -59,7 +59,7 @@ class RealisationController extends Controller
             $image->move($destinationPath, $filename);
 
             // sauvegarder le chemin public
-            $project->image_path = 'realisations/' . $filename;
+            $project->image_path = 'storage/realisations/' . $filename;
         }
 
         $project->save();
