@@ -63,3 +63,8 @@ Route::prefix('administration')->middleware(['auth'])->name('administration.')->
 
 });
 
+
+Route::redirect('/public', '/');
+Route::get('/public/{any}', function ($any) {
+    return redirect()->to('/' . $any);
+})->where('any', '.*');
