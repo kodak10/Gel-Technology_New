@@ -14,7 +14,7 @@
 
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('accueil') }}">Accueil</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('/') }}">Accueil</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Réalisations</li>
                     </ol>
                 </nav>
@@ -46,10 +46,19 @@
 
     <div class="our-porfolio__slider wow fadeInUp" data-wow-delay=".5s">
         @foreach($projects as $project)
-        @if($project->is_active) {{-- Afficher uniquement les projets actifs --}}
+        @if($project->is_active)
         <div class="slider-item">
             <div class="our-project__item overflow-hidden">
-                <img src="{{ $project->image_url ?: asset('assets/img/portfolio/portfolio-1.png') }}" alt="{{ $project->title }}">
+                {{-- Correction de l'URL de l'image --}}
+                @if($project->image_url)
+                    @if(str_starts_with($project->image_url, 'http'))
+                        <img src="{{ $project->image_url }}" alt="{{ $project->title }}">
+                    @else
+                        <img src="{{ asset('storage/' . $project->image_url) }}" alt="{{ $project->title }}">
+                    @endif
+                @else
+                    <img src="{{ asset('assets/img/portfolio/portfolio-1.png') }}" alt="{{ $project->title }}">
+                @endif
 
                 <div class="content d-flex align-items-center justify-content-between">
                     <div class="text">
@@ -97,8 +106,16 @@
                             <div class="testimonial__item-header d-flex justify-content-between align-items-center mb-35">
                                 <div class="left d-flex align-items-center">
                                     <div class="media overflow-hidden">
-                                        <img src="{{ $temoignage->avatar_url ?: asset('assets/img/testimonial/testimonial-1.png') }}" 
-                                             class="img-fluid" alt="{{ $temoignage->name }}">
+                                        {{-- Correction de l'avatar --}}
+                                        @if($temoignage->avatar_url)
+                                            @if(str_starts_with($temoignage->avatar_url, 'http'))
+                                                <img src="{{ $temoignage->avatar_url }}" class="img-fluid" alt="{{ $temoignage->name }}">
+                                            @else
+                                                <img src="{{ asset('storage/' . $temoignage->avatar_url) }}" class="img-fluid" alt="{{ $temoignage->name }}">
+                                            @endif
+                                        @else
+                                            <img src="{{ asset('assets/img/testimonial/testimonial-1.png') }}" class="img-fluid" alt="{{ $temoignage->name }}">
+                                        @endif
                                     </div>
                                     <div class="meta">
                                         <h6 class="name fw-500 text-uppercase color-d_black">{{ $temoignage->name }}</h6>
@@ -174,7 +191,13 @@
                     <div class="slider-item">
                         <a href="{{ $partenaire->link ?: '#' }}" class="client-brand__item" target="{{ $partenaire->link ? '_blank' : '_self' }}">
                             <div class="client-brand__item-media">
-                                <img src="{{ $partenaire->logo_url }}" class="img-fluid" alt="{{ $partenaire->name }}">
+                                @if($partenaire->logo_url)
+                                    @if(str_starts_with($partenaire->logo_url, 'http'))
+                                        <img src="{{ $partenaire->logo_url }}" class="img-fluid" alt="{{ $partenaire->name }}">
+                                    @else
+                                        <img src="{{ asset('storage/' . $partenaire->logo_url) }}" class="img-fluid" alt="{{ $partenaire->name }}">
+                                    @endif
+                                @endif
                             </div>
                         </a>
                     </div>
