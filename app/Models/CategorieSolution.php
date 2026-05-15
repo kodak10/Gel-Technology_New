@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class CategorieSolution extends Model
 {
     use HasFactory;
+
+    protected $table = 'categorie_solutions';
 
     protected $fillable = [
         'name',
@@ -36,6 +37,10 @@ class CategorieSolution extends Model
     // Accesseur pour l'icône
     public function getIconUrlAttribute()
     {
-        return $this->icon ? Storage::url($this->icon) : null;
+        if (!$this->icon) {
+            return null;
+        }
+        
+        return asset($this->icon);
     }
 }

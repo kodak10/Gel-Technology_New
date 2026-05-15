@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Banner;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BannerController extends Controller
 {
@@ -26,7 +26,11 @@ class BannerController extends Controller
             'title' => 'nullable|string|max:255',
             'sub_title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'button_text' => 'nullable|string',
+            'button_link' => 'nullable|string',
+            'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean'
         ]);
 
         $banner = new Banner();
@@ -40,14 +44,22 @@ class BannerController extends Controller
 
         if ($request->hasFile('background_image')) {
             $image = $request->file('background_image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('banners', $filename, 'public');
-            $banner->background_image = $path;
+            $filename = time() . '_' . Str::slug($request->title ?? 'banner') . '.' . $image->getClientOriginalExtension();
+            
+            $destinationPath = public_path('uploads/banners');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $image->move($destinationPath, $filename);
+            $banner->background_image = 'uploads/banners/' . $filename;
         }
 
         $banner->save();
 
-        return redirect()->route('administration.banners.index')->with('success', 'Banner created successfully.');
+        return redirect()->route('administration.banners.index')
+            ->with('success', 'Banner créé avec succès.');
     }
 
     public function edit(Banner $banner)
@@ -61,7 +73,11 @@ class BannerController extends Controller
             'title' => 'nullable|string|max:255',
             'sub_title' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
+            'background_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'button_text' => 'nullable|string',
+            'button_link' => 'nullable|string',
+            'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean'
         ]);
 
         $banner->title = $request->title;
@@ -73,30 +89,39 @@ class BannerController extends Controller
         $banner->is_active = $request->has('is_active');
 
         if ($request->hasFile('background_image')) {
-            // Delete old image
-            if ($banner->background_image) {
-                Storage::disk('public')->delete($banner->background_image);
+            // Supprimer l'ancienne image
+            if ($banner->background_image && file_exists(public_path($banner->background_image))) {
+                unlink(public_path($banner->background_image));
             }
             
             $image = $request->file('background_image');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('banners', $filename, 'public');
-            $banner->background_image = $path;
+            $filename = time() . '_' . Str::slug($request->title ?? 'banner') . '.' . $image->getClientOriginalExtension();
+            
+            $destinationPath = public_path('uploads/banners');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $image->move($destinationPath, $filename);
+            $banner->background_image = 'uploads/banners/' . $filename;
         }
 
         $banner->save();
 
-        return redirect()->route('administration.banners.index')->with('success', 'Banner updated successfully.');
+        return redirect()->route('administration.banners.index')
+            ->with('success', 'Banner mis à jour avec succès.');
     }
 
     public function destroy(Banner $banner)
     {
-        if ($banner->background_image) {
-            Storage::disk('public')->delete($banner->background_image);
+        if ($banner->background_image && file_exists(public_path($banner->background_image))) {
+            unlink(public_path($banner->background_image));
         }
         
         $banner->delete();
         
-        return redirect()->route('administration.banners.index')->with('success', 'Banner deleted successfully.');
+        return redirect()->route('administration.banners.index')
+            ->with('success', 'Banner supprimé avec succès.');
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\CategorieSolution;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CategorieSolutionController extends Controller
@@ -23,8 +22,7 @@ class CategorieSolutionController extends Controller
 
     public function store(Request $request)
     {
-        // Validation des données
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:categorie_solutions,slug',
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
@@ -32,25 +30,30 @@ class CategorieSolutionController extends Controller
             'is_active' => 'nullable|boolean'
         ]);
 
-        // Création de la catégorie
         $category = new CategorieSolution();
         $category->name = $request->name;
         $category->slug = $request->slug ?? Str::slug($request->name);
         $category->order = $request->order ?? 0;
-        $category->is_active = $request->has('is_active') ? true : false;
+        $category->is_active = $request->has('is_active');
 
-        // Gestion de l'icône
         if ($request->hasFile('icon')) {
             $icon = $request->file('icon');
             $filename = time() . '_' . Str::slug($request->name) . '.' . $icon->getClientOriginalExtension();
-            $path = $icon->storeAs('categories', $filename, 'public');
-            $category->icon = $path;
+            
+            $destinationPath = public_path('uploads/categories');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $icon->move($destinationPath, $filename);
+            $category->icon = 'uploads/categories/' . $filename;
         }
 
         $category->save();
 
         return redirect()->route('administration.categories.index')
-                        ->with('success', 'Catégorie créée avec succès.');
+            ->with('success', 'Catégorie créée avec succès.');
     }
 
     public function edit(CategorieSolution $category)
@@ -60,8 +63,7 @@ class CategorieSolutionController extends Controller
 
     public function update(Request $request, CategorieSolution $category)
     {
-        // Validation des données
-        $validated = $request->validate([
+        $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'nullable|string|unique:categorie_solutions,slug,' . $category->id,
             'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
@@ -69,42 +71,46 @@ class CategorieSolutionController extends Controller
             'is_active' => 'nullable|boolean'
         ]);
 
-        // Mise à jour de la catégorie
         $category->name = $request->name;
         $category->slug = $request->slug ?? Str::slug($request->name);
         $category->order = $request->order ?? 0;
-        $category->is_active = $request->has('is_active') ? true : false;
+        $category->is_active = $request->has('is_active');
 
-        // Gestion de l'icône
         if ($request->hasFile('icon')) {
             // Supprimer l'ancienne icône
-            if ($category->icon) {
-                Storage::disk('public')->delete($category->icon);
+            if ($category->icon && file_exists(public_path($category->icon))) {
+                unlink(public_path($category->icon));
             }
             
             $icon = $request->file('icon');
             $filename = time() . '_' . Str::slug($request->name) . '.' . $icon->getClientOriginalExtension();
-            $path = $icon->storeAs('categories', $filename, 'public');
-            $category->icon = $path;
+            
+            $destinationPath = public_path('uploads/categories');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $icon->move($destinationPath, $filename);
+            $category->icon = 'uploads/categories/' . $filename;
         }
 
         $category->save();
 
         return redirect()->route('administration.categories.index')
-                        ->with('success', 'Catégorie mise à jour avec succès.');
+            ->with('success', 'Catégorie mise à jour avec succès.');
     }
 
     public function destroy(CategorieSolution $category)
     {
-        // Supprimer l'icône
-        if ($category->icon) {
-            Storage::disk('public')->delete($category->icon);
+        if ($category->icon && file_exists(public_path($category->icon))) {
+            unlink(public_path($category->icon));
         }
         
         $category->delete();
         
         return redirect()->route('administration.categories.index')
-                        ->with('success', 'Catégorie supprimée avec succès.');
+            ->with('success', 'Catégorie supprimée avec succès.');
     }
 
     public function toggleStatus(CategorieSolution $category)

@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 
 class Solution extends Model
 {
@@ -37,14 +36,24 @@ class Solution extends Model
         return $this->belongsTo(CategorieSolution::class, 'categorie_solution_id');
     }
 
+    // Accesseur pour l'URL de l'image
     public function getImageUrlAttribute()
     {
-        return $this->image_path ? Storage::url($this->image_path) : null;
+        if (!$this->image_path) {
+            return null;
+        }
+        
+        return asset($this->image_path);
     }
 
+    // Accesseur pour l'URL de l'icône
     public function getIconUrlAttribute()
     {
-        return $this->icon ? Storage::url($this->icon) : null;
+        if (!$this->icon) {
+            return null;
+        }
+        
+        return asset($this->icon);
     }
 
     // Scope pour les solutions mises en avant

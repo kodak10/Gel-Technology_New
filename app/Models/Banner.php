@@ -19,4 +19,19 @@ class Banner extends Model
         'order',
         'is_active'
     ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
+        'order' => 'integer'
+    ];
+
+    // Accesseur pour l'URL de l'image de fond
+    public function getBackgroundImageUrlAttribute()
+    {
+        if (!$this->background_image) {
+            return null;
+        }
+        
+        return asset($this->background_image);
+    }
 }

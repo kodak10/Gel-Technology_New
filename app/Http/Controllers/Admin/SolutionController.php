@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Solution;
 use App\Models\CategorieSolution;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class SolutionController extends Controller
 {
@@ -31,13 +31,16 @@ class SolutionController extends Controller
             'short_description' => 'nullable|string',
             'full_description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048'
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
+            'featured' => 'nullable|boolean'
         ]);
 
         $solution = new Solution();
         $solution->categorie_solution_id = $request->categorie_solution_id;
         $solution->title = $request->title;
-        $solution->slug = $request->slug ?? \Illuminate\Support\Str::slug($request->title);
+        $solution->slug = $request->slug ?? Str::slug($request->title);
         $solution->short_description = $request->short_description;
         $solution->full_description = $request->full_description;
         $solution->color = $request->color ?? '#3b82f6';
@@ -47,45 +50,38 @@ class SolutionController extends Controller
         $solution->is_active = $request->has('is_active');
         $solution->featured = $request->has('featured');
 
-        // if ($request->hasFile('image')) {
-        //     $image = $request->file('image');
-        //     $filename = time() . '_' . $image->getClientOriginalName();
-        //     $path = $image->storeAs('solutions', $filename, 'public');
-        //     $solution->image_path = $path;
-        // }
-
         if ($request->hasFile('image')) {
-
             $image = $request->file('image');
-
-            $filename = time() . '_' . $image->getClientOriginalName();
-
-            $image->move(public_path('storage/solutions'), $filename);
-
-            $solution->image_path = 'solutions/' . $filename;
+            $filename = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
+            
+            $destinationPath = public_path('uploads/solutions');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $image->move($destinationPath, $filename);
+            $solution->image_path = 'uploads/solutions/' . $filename;
         }
 
-        // if ($request->hasFile('icon')) {
-        //     $icon = $request->file('icon');
-        //     $filename = time() . '_icon_' . $icon->getClientOriginalName();
-        //     $path = $icon->storeAs('solutions/icons', $filename, 'public');
-        //     $solution->icon = $path;
-        // }
-
         if ($request->hasFile('icon')) {
-
             $icon = $request->file('icon');
-
-            $filename = time() . '_icon_' . $icon->getClientOriginalName();
-
-            $icon->move(public_path('storage/solutions/icons'), $filename);
-
-            $solution->icon = 'solutions/icons/' . $filename;
+            $filename = time() . '_icon_' . Str::slug($request->title) . '.' . $icon->getClientOriginalExtension();
+            
+            $destinationPath = public_path('uploads/solutions/icons');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $icon->move($destinationPath, $filename);
+            $solution->icon = 'uploads/solutions/icons/' . $filename;
         }
 
         $solution->save();
 
-        return redirect()->route('administration.solutions.index')->with('success', 'Solution créée avec succès.');
+        return redirect()->route('administration.solutions.index')
+            ->with('success', 'Solution créée avec succès.');
     }
 
     public function edit(Solution $solution)
@@ -103,12 +99,15 @@ class SolutionController extends Controller
             'short_description' => 'nullable|string',
             'full_description' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
-            'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg|max:2048'
+            'icon' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            'order' => 'nullable|integer',
+            'is_active' => 'nullable|boolean',
+            'featured' => 'nullable|boolean'
         ]);
 
         $solution->categorie_solution_id = $request->categorie_solution_id;
         $solution->title = $request->title;
-        $solution->slug = $request->slug ?? \Illuminate\Support\Str::slug($request->title);
+        $solution->slug = $request->slug ?? Str::slug($request->title);
         $solution->short_description = $request->short_description;
         $solution->full_description = $request->full_description;
         $solution->color = $request->color ?? '#3b82f6';
@@ -119,42 +118,62 @@ class SolutionController extends Controller
         $solution->featured = $request->has('featured');
 
         if ($request->hasFile('image')) {
-            if ($solution->image_path) {
-                Storage::disk('public')->delete($solution->image_path);
+            // Supprimer l'ancienne image
+            if ($solution->image_path && file_exists(public_path($solution->image_path))) {
+                unlink(public_path($solution->image_path));
             }
+            
             $image = $request->file('image');
-            $filename = time() . '_' . $image->getClientOriginalName();
-            $path = $image->storeAs('solutions', $filename, 'public');
-            $solution->image_path = $path;
+            $filename = time() . '_' . Str::slug($request->title) . '.' . $image->getClientOriginalExtension();
+            
+            $destinationPath = public_path('uploads/solutions');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $image->move($destinationPath, $filename);
+            $solution->image_path = 'uploads/solutions/' . $filename;
         }
 
         if ($request->hasFile('icon')) {
-            if ($solution->icon) {
-                Storage::disk('public')->delete($solution->icon);
+            // Supprimer l'ancienne icône
+            if ($solution->icon && file_exists(public_path($solution->icon))) {
+                unlink(public_path($solution->icon));
             }
+            
             $icon = $request->file('icon');
-            $filename = time() . '_icon_' . $icon->getClientOriginalName();
-            $path = $icon->storeAs('solutions/icons', $filename, 'public');
-            $solution->icon = $path;
+            $filename = time() . '_icon_' . Str::slug($request->title) . '.' . $icon->getClientOriginalExtension();
+            
+            $destinationPath = public_path('uploads/solutions/icons');
+            
+            if (!file_exists($destinationPath)) {
+                mkdir($destinationPath, 0755, true);
+            }
+            
+            $icon->move($destinationPath, $filename);
+            $solution->icon = 'uploads/solutions/icons/' . $filename;
         }
 
         $solution->save();
 
-        return redirect()->route('administration.solutions.index')->with('success', 'Solution mise à jour avec succès.');
+        return redirect()->route('administration.solutions.index')
+            ->with('success', 'Solution mise à jour avec succès.');
     }
 
     public function destroy(Solution $solution)
     {
-        if ($solution->image_path) {
-            Storage::disk('public')->delete($solution->image_path);
+        if ($solution->image_path && file_exists(public_path($solution->image_path))) {
+            unlink(public_path($solution->image_path));
         }
-        if ($solution->icon) {
-            Storage::disk('public')->delete($solution->icon);
+        if ($solution->icon && file_exists(public_path($solution->icon))) {
+            unlink(public_path($solution->icon));
         }
         
         $solution->delete();
         
-        return redirect()->route('administration.solutions.index')->with('success', 'Solution supprimée avec succès.');
+        return redirect()->route('administration.solutions.index')
+            ->with('success', 'Solution supprimée avec succès.');
     }
 
     public function toggleStatus(Solution $solution)
