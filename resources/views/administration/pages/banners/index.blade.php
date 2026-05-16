@@ -53,7 +53,7 @@
                                             <td>{{ $loop->iteration }}</td>
                                             <td>
                                                 @if($banner->background_image)
-                                                    <img src="{{ Storage::url($banner->background_image) }}" alt="{{ $banner->title }}" 
+                                                    <img src="{{ asset($banner->background_image) }}" alt="{{ $banner->title }}" 
                                                          class="img-thumbnail" style="width: 80px; height: 50px; object-fit: cover;">
                                                 @else
                                                     <span class="badge bg-secondary">Pas d'image</span>
