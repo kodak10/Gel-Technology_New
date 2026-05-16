@@ -73,7 +73,7 @@
                                     <label class="form-label">Image actuelle</label>
                                     @if($banner->background_image)
                                         <div class="mb-2">
-                                            <img src="{{ Storage::url($banner->background_image) }}" alt="{{ $banner->title }}" 
+                                            <img src="{{ asset($banner->background_image) }}" alt="{{ $banner->title }}" 
                                                  class="img-fluid rounded" style="max-height: 200px;">
                                         </div>
                                     @else
