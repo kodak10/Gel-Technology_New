@@ -6,7 +6,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4 class="card-title mb-0">Modifier le témoignage : {{ $testimonial->name }}</h4>
+                    <h4 class="card-title mb-0">Modifier le témoignage : {{ $temoignage->name }}</h4>
                     <a href="{{ route('administration.temoignages.index') }}" class="btn btn-sm btn-secondary">
                         <i class="fas fa-arrow-left me-1"></i> Retour
                     </a>
@@ -24,7 +24,7 @@
                 @endif
 
                 <div class="card-body">
-                    <form action="{{ route('administration.temoignages.update', $testimonial) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('administration.temoignages.update', $temoignage) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         
@@ -41,7 +41,7 @@
                                                     <label for="name" class="form-label">Nom <span class="text-danger">*</span></label>
                                                     <input type="text" name="name" id="name" 
                                                            class="form-control @error('name') is-invalid @enderror" 
-                                                           value="{{ old('name', $testimonial->name) }}" required>
+                                                           value="{{ old('name', $temoignage->name) }}" required>
                                                     @error('name')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -52,7 +52,7 @@
                                                     <label for="position" class="form-label">Poste/Fonction</label>
                                                     <input type="text" name="position" id="position" 
                                                            class="form-control @error('position') is-invalid @enderror" 
-                                                           value="{{ old('position', $testimonial->position) }}">
+                                                           value="{{ old('position', $temoignage->position) }}">
                                                     @error('position')
                                                         <div class="invalid-feedback">{{ $message }}</div>
                                                     @enderror
@@ -64,7 +64,7 @@
                                             <label for="company" class="form-label">Entreprise</label>
                                             <input type="text" name="company" id="company" 
                                                    class="form-control @error('company') is-invalid @enderror" 
-                                                   value="{{ old('company', $testimonial->company) }}">
+                                                   value="{{ old('company', $temoignage->company) }}">
                                             @error('company')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -73,7 +73,7 @@
                                         <div class="mb-3">
                                             <label for="content" class="form-label">Témoignage <span class="text-danger">*</span></label>
                                             <textarea name="content" id="content" rows="4" 
-                                                      class="form-control @error('content') is-invalid @enderror" required>{{ old('content', $testimonial->content) }}</textarea>
+                                                      class="form-control @error('content') is-invalid @enderror" required>{{ old('content', $temoignage->content) }}</textarea>
                                             @error('content')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -84,7 +84,7 @@
                                             <div class="rating-stars">
                                                 @for($i = 1; $i <= 5; $i++)
                                                     <input type="radio" id="star{{ $i }}" name="rating" value="{{ $i }}" 
-                                                           {{ old('rating', $testimonial->rating) == $i ? 'checked' : '' }} required>
+                                                           {{ old('rating', $temoignage->rating) == $i ? 'checked' : '' }} required>
                                                     <label for="star{{ $i }}" title="{{ $i }} étoiles">
                                                         <i class="fas fa-star"></i>
                                                     </label>
@@ -99,7 +99,7 @@
                                             <label for="order" class="form-label">Ordre d'affichage</label>
                                             <input type="number" name="order" id="order" 
                                                    class="form-control @error('order') is-invalid @enderror" 
-                                                   value="{{ old('order', $testimonial->order) }}" min="0">
+                                                   value="{{ old('order', $temoignage->order) }}" min="0">
                                             @error('order')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
@@ -114,8 +114,8 @@
                                         <h5 class="card-title mb-0">Photo du client</h5>
                                     </div>
                                     <div class="card-body text-center">
-                                        @if($testimonial->avatar_path)
-                                            <img src="{{ $testimonial->avatar_url }}" alt="{{ $testimonial->name }}" 
+                                        @if($temoignage->avatar_path)
+                                            <img src="{{ $temoignage->avatar_url }}" alt="{{ $temoignage->name }}" 
                                                  class="img-fluid rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
                                             <p class="text-muted small">Photo actuelle</p>
                                         @endif
@@ -143,8 +143,8 @@
                                         <h5 class="card-title mb-0">Logo de l'entreprise</h5>
                                     </div>
                                     <div class="card-body text-center">
-                                        @if($testimonial->company_logo)
-                                            <img src="{{ $testimonial->company_logo_url }}" alt="{{ $testimonial->company }}" 
+                                        @if($temoignage->company_logo)
+                                            <img src="{{ $temoignage->company_logo_url }}" alt="{{ $temoignage->company }}" 
                                                  class="img-fluid rounded mb-3" style="max-height: 100px;">
                                             <p class="text-muted small">Logo actuel</p>
                                         @endif
@@ -175,7 +175,7 @@
                                         <div class="mb-3">
                                             <div class="form-check form-switch">
                                                 <input class="form-check-input" type="checkbox" name="is_active" 
-                                                       id="is_active" value="1" {{ old('is_active', $testimonial->is_active) ? 'checked' : '' }}>
+                                                       id="is_active" value="1" {{ old('is_active', $temoignage->is_active) ? 'checked' : '' }}>
                                                 <label class="form-check-label" for="is_active">
                                                     Témoignage actif
                                                 </label>
@@ -185,8 +185,8 @@
                                         <div class="mt-3">
                                             <small class="text-muted">
                                                 <i class="fas fa-info-circle me-1"></i>
-                                                Ajouté le: {{ $testimonial->created_at->format('d/m/Y H:i') }}<br>
-                                                Modifié le: {{ $testimonial->updated_at->format('d/m/Y H:i') }}
+                                                Ajouté le: {{ $temoignage->created_at->format('d/m/Y H:i') }}<br>
+                                                Modifié le: {{ $temoignage->updated_at->format('d/m/Y H:i') }}
                                             </small>
                                         </div>
                                     </div>
