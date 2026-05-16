@@ -71,10 +71,10 @@
                                         </div>
 
                                         <div class="mb-3">
-                                            <label for="content" class="form-label">Témoignage <span class="text-danger">*</span></label>
-                                            <textarea name="content" id="content" rows="4" 
-                                                      class="form-control @error('content') is-invalid @enderror" required>{{ old('content', $temoignage->content) }}</textarea>
-                                            @error('content')
+                                            <label for="message" class="form-label">Témoignage <span class="text-danger">*</span></label>
+                                            <textarea name="message" id="message" rows="4" 
+                                                      class="form-control @error('message') is-invalid @enderror" required>{{ old('message', $temoignage->message) }}</textarea>
+                                            @error('message')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
                                         </div>
