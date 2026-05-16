@@ -9,8 +9,7 @@
 
     <div class="banner-slider_2">
         @foreach($banners as $banner)
-        <div class="slider-item" style="background-image: url({{ $banner->background_image ? asset($banner->background_image) : '' }});">
-            <div class="container">
+        <div class="slider-item" style="background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)), url({{ $banner->background_image ? asset($banner->background_image) : '' }}); background-size: cover; background-position: center;">            <div class="container">
                 <div class="row">
                     <div class="col-12">
                         <div class="banner__content">
