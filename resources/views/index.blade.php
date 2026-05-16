@@ -94,7 +94,7 @@
 
 <!-- A Propos -->
 <section class="about__wrapper section-padding overflow-hidden">
-    <div class="container">
+    <div class="container" id="about">
         <div class="row">
             <div class="col-lg-4 col-md-7 col-sm-6">
                 <div class="about_img wow fadeInUp" style="height: 100%;" data-wow-delay=".3s">

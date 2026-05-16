@@ -48,7 +48,7 @@
                                         <a href="{{ route('accueil') }}">Accueil</a>
                                     </li>
                                     <li class="{{ request()->routeIs('about') ? 'active' : '' }}">
-                                        <a href="{{ route('about') }}">A Propos</a>
+                                        <a href="#about">A Propos</a>
                                     </li>
                                     <li class="{{ request()->routeIs('services') || request()->routeIs('service.details') || request()->routeIs('services.by.category') ? 'active' : '' }}">
                                         <a href="{{ route('services') }}">Nos Services</a>
