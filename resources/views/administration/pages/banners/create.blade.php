@@ -58,7 +58,7 @@
                                             <label for="button_link" class="form-label">Lien du bouton</label>
                                             <input type="text" name="button_link" id="button_link" 
                                                    class="form-control @error('button_link') is-invalid @enderror" 
-                                                   value="{{ old('button_link', 'services.html') }}">
+                                                   value="{{ old('button_link', 'services') }}">
                                             @error('button_link')
                                                 <div class="invalid-feedback">{{ $message }}</div>
                                             @enderror
