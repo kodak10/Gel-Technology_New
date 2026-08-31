@@ -135,13 +135,7 @@
 <!-- contact-us form start -->
 <section class="contact-form mb-xs-80 mb-sm-100 mb-md-100 mb-120 overflow-hidden">
     <div id="contact-map" class="mb-sm-30 mb-xs-25">
-        <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3973.761586235674!2d-4.028730985243563!3d5.322769136354266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfc1f7f2a5b7b8b7f%3A0x7b7b7b7b7b7b7b7b!2sAbidjan%2C%20C%C3%B4te%20d%27Ivoire!5e0!3m2!1sfr!2sci!4v1707636832892!5m2!1sfr!2sci" 
-            style="width: 100%; height: 400px; border: 0;" 
-            allowfullscreen="" 
-            loading="lazy" 
-            referrerpolicy="no-referrer-when-downgrade">
-        </iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3972.502564123565!2d-4.0251944!3d5.3399722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNcKwMjAnMjMuOSJOIDTCsDAxJzMwLjciVw!5e0!3m2!1sfr!2sci!4v1788184370266!5m2!1sfr!2sci" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
     </div>
 
     <div class="container">

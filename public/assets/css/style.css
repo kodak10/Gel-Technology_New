@@ -1,11 +1,4 @@
 ﻿@charset "UTF-8";
-/*
-Template: CONSULTER - Business Consulting HTML Template
-Author: RRDevs
-Author URI: https://themeforest.net/user/rrdevs
-Description: Business Consulting HTML Template
-Version: 1.0
-*/
 @import url("css2");
 * {
   box-sizing: border-box;
@@ -18825,3 +18818,112 @@ header.transparent.stop.header-2 .main-header-wraper {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+/* ========================================
+   CORRECTIONS RESPONSIVE URGENTES
+   ======================================== */
+
+/* 1. Supprimer l'espace vide du header en mobile */
+.header-gutter.home {
+    top: 0 !important;
+    min-height: 0 !important;
+}
+
+/* 2. Réduire le padding du slider */
+.banner-slider__wrapper.banner-slider__wrapper_2 .slider-item {
+    padding: 120px 0 150px;
+}
+
+@media (max-width: 767px) {
+    .banner-slider__wrapper.banner-slider__wrapper_2 .slider-item {
+        padding: 70px 0 50px;
+    }
+}
+
+/* 3. Ajuster le margin-top des éléments superposés */
+.competitive-edge.competitive-edge_2 {
+    margin-top: -80px;
+}
+
+@media (max-width: 767px) {
+    .competitive-edge.competitive-edge_2 {
+        margin-top: -30px !important;
+    }
+}
+
+/* 4. Réduire les paddings des sections en mobile */
+@media (max-width: 767px) {
+    .section-padding {
+        padding: 30px 0 !important;
+    }
+    
+    .fauture__element {
+        padding: 20px 15px !important;
+    }
+    
+    .about__wrapper {
+        padding: 30px 0 !important;
+    }
+    
+    .planning-success {
+        padding: 30px 0 !important;
+    }
+    
+    .our-portfolio-home {
+        padding: 30px 0 !important;
+    }
+    
+    .our-porfolio {
+        padding: 30px 0 !important;
+    }
+    
+    .work-process {
+        padding: 30px 0 !important;
+    }
+    
+    .testimonial {
+        padding: 30px 0 !important;
+    }
+    
+    .client-brand {
+        padding: 30px 0 !important;
+    }
+}
+
+/* 5. Désactiver les overlays inutiles en mobile */
+@media (max-width: 767px) {
+    .banner-slider__wrapper:after,
+    .our-portfolio-home:after,
+    .our-team.our-porfolio:after {
+        display: none !important;
+    }
+}
+
+/* 6. Ajuster la taille du titre du banner */
+@media (max-width: 480px) {
+    .banner__content .title {
+        font-size: 20px !important;
+        line-height: 1.2 !important;
+    }
+    
+    .banner__content .sub-title {
+        font-size: 12px !important;
+    }
+}
+
+/* 7. S'assurer que le contenu ne déborde pas */
+@media (max-width: 767px) {
+    .container {
+        padding: 0 15px !important;
+    }
+    
+    .row {
+        margin-left: -10px !important;
+        margin-right: -10px !important;
+    }
+    
+    .row > [class*="col-"] {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+}

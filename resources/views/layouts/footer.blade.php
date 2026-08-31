@@ -17,7 +17,7 @@
                         </p>
                     </div>
 
-                    <a href="#" class="theme-btn btn-red btn-md fw-600">Contactez-Nous <i class="fas fa-chevron-double-right"></i></a>
+                    <a href="/contact" class="theme-btn btn-red btn-md fw-600">Contactez-Nous <i class="fas fa-chevron-double-right"></i></a>
                 </div>
             </div>
 
@@ -27,7 +27,7 @@
 
                     <ul>
                         <li><a href="{{ route('accueil') }}">Accueil</a></li>
-                        <li><a href="{{ route('about') }}">À Propos</a></li>
+                        <li><a href="/#about">À Propos</a></li>
                         <li><a href="{{ route('services') }}">Nos Services</a></li>
                         <li><a href="{{ route('realisations') }}">Réalisations</a></li>
                         <li><a href="{{ route('contact') }}">Contacts</a></li>
@@ -60,12 +60,7 @@
                                 </div>
                             </div>
                         </div>
-                        <iframe 
-                            src="https://www.google.com/maps?q=Plateau,Abidjan,Cote d'Ivoire&output=embed" 
-                            style="width: 100%; height: 250px; border: 0; border-radius: 10px;" 
-                            allowfullscreen 
-                            loading="lazy">
-                        </iframe>
+                        <iframe style="width: 100%; height:180px" src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3972.502564123565!2d-4.0251944!3d5.3399722!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNcKwMjAnMjMuOSJOIDTCsDAxJzMwLjciVw!5e0!3m2!1sfr!2sci!4v1788184370266!5m2!1sfr!2sci" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
                     </div>
                 </div>
             </div>

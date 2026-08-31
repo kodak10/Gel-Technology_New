@@ -24,23 +24,46 @@
 
     <style>
         /* Augmenter la largeur de l'image dans la lightbox */
-.lightbox .lb-image {
-    max-width: 90vw !important;
-    max-height: 90vh !important;
-    width: auto !important;
-    height: auto !important;
-}
+        .lightbox .lb-image {
+            max-width: 90vw !important;
+            max-height: 90vh !important;
+            width: auto !important;
+            height: auto !important;
+        }
 
-/* Optionnel : Agrandir le conteneur */
-.lb-outerContainer {
-    max-width: 90vw !important;
-    background-color: transparent !important;
-}
+        .lb-outerContainer {
+            max-width: 90vw !important;
+            background-color: transparent !important;
+        }
 
-/* Optionnel : Centrer parfaitement */
-.lb-dataContainer {
-    max-width: 90vw !important;
-}
+        .lb-dataContainer {
+            max-width: 90vw !important;
+        }
+
+        /* ---- Bouton WhatsApp flottant (simple et fiable) ---- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #25d366;
+            color: #fff;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            z-index: 9999;
+            text-decoration: none;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #128C7E;
+            color: #fff;
+        }
     </style>
 
 </head>
@@ -69,6 +92,14 @@
 
     @include('layouts.footer')
 
+    <!-- WhatsApp Floating Button (avec tooltip natif) -->
+    <a href="https://wa.me/2250720687826" 
+       class="whatsapp-float" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       title="Contactez-nous">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <script src="{{asset('assets/js/jquery.min.js')}}"></script>
     <script src="{{asset('assets/js/bootstrap.bundle.min.js')}}"></script>

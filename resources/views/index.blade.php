@@ -110,7 +110,7 @@
                         </div>
                         <div class="number">
                             <span class="counter mb-3">10</span><sup>+</sup>
-                            <h5 class="title">Années d'expérience</h5>
+                            <h5 class="title">Années d'expériences</h5>
                         </div>
                     </div>
                 </div>
